@@ -1,33 +1,83 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>jQuery Template</title>
-    
-    <link rel="stylesheet" href="index.css" type="text/css">
-    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-  
-    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
-    <script>
-      // Initialize Firebase
-      var config = {
-        apiKey: "AIzaSyACSL_vfuK6_ff6gwU22MIpVeNEunAGIXs",
-        authDomain: "generator-project1.firebaseapp.com",
-        databaseURL: "https://generator-project1.firebaseio.com",
-        projectId: "generator-project1",
-        storageBucket: "",
-        messagingSenderId: "114613586829"
-      };
-      firebase.initializeApp(config);
-    </script>
-    
-    <script> 
-        $(function(){
-            
+
+<head>
+  <meta charset="UTF-8">
+  <title>jQuery Template</title>
+
+  <link rel="stylesheet" href="index.css" type="text/css">
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+
+  <script>
+    $(function() {
+      $('#age').html('How old are you?')
+      $('#age').click(function() {
+        $('#color').html('What is your favorite color?')
+      })
+      $('#color').click(function() {
+        $('#ethnicity').html('What is your ethnicity?')
+      })
+
+      $('.age').click(function() {
+        var answerValue2 = document.getElementById('ageAnswer').value
+        var answerValue = answerValue2.trim()
+
+        console.log(answerValue)
+      })
+    });
+  </script>
+
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyACSL_vfuK6_ff6gwU22MIpVeNEunAGIXs",
+      authDomain: "generator-project1.firebaseapp.com",
+      databaseURL: "https://generator-project1.firebaseio.com",
+      projectId: "generator-project1",
+      storageBucket: "generator-project1.appspot.com",
+      messagingSenderId: "114613586829"
+    };
+    firebase.initializeApp(config);
+    var database = firebase.database();
+
+    $('.age').click(function() {
+      function writeUserData(answerValue) {
+        firebase.database().ref('users/').set({
+          value: answerValue
         });
-    </script>
-  </head>
-  <body>
-  
-  </body>
+      }
+    })
+
+    // function writeAgeData(answerValue) {
+    //   firebase.database().ref('repsonses/'+ answerValue).set({
+    //       value:answerValue
+    //     });
+
+    // var ref = firebase.database().ref();
+    //   ref.once("value")
+    //     .then(function(snapshot) {
+
+    //       var name = snapshot.child("repsonses/").val();
+    //       var ansArray = Object.keys(name)
+
+    //       var items = document.getElementById("responses");
+    //       for (var i = 0; i < ansArray.length; i++ ) {
+    //           var item = document.createElement("li");
+    //           item.innerHTML = ansArray[i];
+    //           items.appendChild(item);
+    //       }
+
+    //       console.log(ansArray)
+    //     });
+    //}
+  </script>
+</head>
+
+<body>
+  <span id='age'></span><br><input type="text" id='ageAnswer'><button class='age'>Submit</button><br><br>
+  <span id='color'></span><br><input type="text"><button class='color'>Submit</button><br><br>
+  <span id='ethnicity'></span><br><input type="text"><button class='ethnicity'>Submit</button><br><br>
+</body>
+
 </html>
