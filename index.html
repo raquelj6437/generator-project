@@ -3,27 +3,34 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>jQuery Template</title>
-
-  <link rel="stylesheet" href="index.css" type="text/css">
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="index.css" type="text/css">
+  
 </head>
 
 <body>
-  <span id='age'></span><br><input type="text" id='ageAnswer'><button class='age'>Submit</button><br><br>
-  <span id='color'></span><br><input type="text" id='colorAnswer'><button class='color'>Submit</button><br><br>
-  <span id='ethnicity'></span><br><input type="text" id='ethnicityAnswer'><button class='ethnicity'>Submit</button><br><br>
+  <div class='container'>
+    <span id='ageHide'>How old are you?<br><input type="text" id='ageAnswer'><button class='age'>Submit</button><br><br></span>
+  <span id='colorHide'>What is your favorite color?<br><input type="text" id='colorAnswer'><button class='color'>Submit</button><br><br></span>
+  <span id='ethnicityHide'>What is your ethnicity?<br><input type="text" id='ethnicityAnswer'><button class='ethnicity'>Submit</button><br><br></span>
+  </div>
+  
 
   <script>
     var answerValue2
     var answerValue
-    var age
-    var color
-    var ethnicity
-
-    $('#age').html('How old are you?')
-    $('#color').html('What is your favorite color?')
-    $('#ethnicity').html('What is your ethnicity?')
+    var age = []
+    var color = []
+    var ethnicity = []
+    var count = 0
+    var length
+    
+    $('#colorHide').hide()
+    $('#ethnicityHide').hide()
 
     function getData(data,list){
       var query = firebase.database().ref(data).orderByKey();
@@ -34,6 +41,7 @@
             var childData = childSnapshot.val();
             var objects = (Object.values(childData))
             list.push(objects[0])
+            length = age.length
         });
       });
     }
@@ -46,21 +54,22 @@
     $('.age').click(function() {
       getValue('ageAnswer')
       writeAgeData(answerValue)
-      age = []
       getData('age/',age)
+      $('#ageHide').hide()
+      $('#colorHide').show()
     });
     
     $('.color').click(function() {
       getValue('colorAnswer')
       writeColorData(answerValue)
-      color = []
       getData('color/',color)
+      $('#colorHide').hide()
+      $('#ethnicityHide').show()
     });
     
     $('.ethnicity').click(function() {
       getValue('ethnicityAnswer')
       writeEthnicityData(answerValue)
-      ethnicity = []
       getData('ethnicity/',ethnicity)
     });
     
