@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>jQuery Template</title>
+  <title>Originality Cirtificate</title>
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -13,12 +13,13 @@
 </head>
 
 <body>
-  <div class='container'>
-    <span id='ageHide'>How old are you?<br><input type="text" id='ageAnswer'><button class='age'>Submit</button><br><br></span>
-  <span id='colorHide'>What is your favorite color?<br><input type="text" id='colorAnswer'><button class='color'>Submit</button><br><br></span>
-  <span id='ethnicityHide'>What is your ethnicity?<br><input type="text" id='ethnicityAnswer'><button class='ethnicity'>Submit</button><br><br></span>
+  <div class='background middle'>
+    <div class='middle'>
+      <span id='ageHide'>How old are you?<br><input type="text" id='ageAnswer'><br><br><button class='age'>Submit</button><br><br></span>
+      <span id='colorHide'>What is your favorite color?<br><input type="text" id='colorAnswer'><br><br><button class='color'>Submit</button><br><br></span>
+      <span id='ethnicityHide'>What is your ethnicity?<br><input type="text" id='ethnicityAnswer'><br><br><button class='ethnicity'>Submit</button><br><br></span>
+    </div>
   </div>
-  
 
   <script>
     var answerValue2
@@ -53,24 +54,41 @@
     
     $('.age').click(function() {
       getValue('ageAnswer')
-      writeAgeData(answerValue)
-      getData('age/',age)
-      $('#ageHide').hide()
-      $('#colorHide').show()
+      answerValue = parseInt(answerValue)
+      console.log(answerValue)
+      if (answerValue === parseInt(answerValue)){
+        writeAgeData(answerValue)
+        getData('age/',age)
+        $('#ageHide').hide()
+        $('#colorHide').show()
+      }
+      else{
+        alert('Please type a number!')
+      }
     });
     
     $('.color').click(function() {
       getValue('colorAnswer')
-      writeColorData(answerValue)
-      getData('color/',color)
-      $('#colorHide').hide()
-      $('#ethnicityHide').show()
+      if (answerValue==''){
+        alert('Please type word(s)!')
+      }
+      else{
+        writeColorData(answerValue)
+        getData('color/',color)
+        $('#colorHide').hide()
+        $('#ethnicityHide').show()
+      }
     });
     
     $('.ethnicity').click(function() {
-      getValue('ethnicityAnswer')
-      writeEthnicityData(answerValue)
-      getData('ethnicity/',ethnicity)
+      if (answerValue==''){
+        alert('Please type word(s)')
+      }
+      else{
+        getValue('ethnicityAnswer')
+        writeEthnicityData(answerValue)
+        getData('ethnicity/',ethnicity)
+      }
     });
     
   </script>
