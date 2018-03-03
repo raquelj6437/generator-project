@@ -1,5 +1,5 @@
 body{
-    background: linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1))
+    background: linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1));
 }
 
 .middle {
@@ -35,6 +35,8 @@ button{
     background-color: transparent;
     border: 2px solid blue;
     color: white;
+    height: 50px;
+    font-size: 25px;
 }
 
 button:hover{

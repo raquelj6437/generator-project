@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Originality Cirtificate</title>
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="index.css" type="text/css">
   
@@ -24,25 +24,24 @@
   <script>
     var answerValue2
     var answerValue
-    var age = []
-    var color = []
-    var ethnicity = []
     var count = 0
     var length
     
     $('#colorHide').hide()
     $('#ethnicityHide').hide()
 
-    function getData(data,list){
+    function getData(data){
       var query = firebase.database().ref(data).orderByKey();
       query.once("value")
         .then(function(snapshot) {
-          snapshot.forEach(function(childSnapshot) {
+          snapshot.forEach(function(childSnapshot) { //for each is a loop!!
             // childData will be the actual contents of the child
             var childData = childSnapshot.val();
             var objects = (Object.values(childData))
-            list.push(objects[0])
-            length = age.length
+
+            if (answerValue == objects[0]){
+              count ++
+            }
         });
       });
     }
@@ -55,12 +54,19 @@
     $('.age').click(function() {
       getValue('ageAnswer')
       answerValue = parseInt(answerValue)
-      console.log(answerValue)
       if (answerValue === parseInt(answerValue)){
         writeAgeData(answerValue)
-        getData('age/',age)
-        $('#ageHide').hide()
-        $('#colorHide').show()
+        getData('age/')
+        setTimeout(function(){
+          if (count<=1){
+            alert('You are the only person surveyed that is ' +answerValue+ ' years old!')
+          }
+          else{
+            alert(count + ' people surveyed are the same age as you!')
+          }
+          $('#ageHide').hide()
+          $('#colorHide').show()
+        }, 1500);
       }
       else{
         alert('Please type a number!')
@@ -74,20 +80,37 @@
       }
       else{
         writeColorData(answerValue)
-        getData('color/',color)
-        $('#colorHide').hide()
-        $('#ethnicityHide').show()
+        getData('color/')
+        setTimeout(function(){
+          if (count<=1){
+            alert('You are the only person surveyed that is ' +answerValue)
+          }
+          else{
+            alert(count + ' people surveyed have the same ethnicity as you!')
+          }
+          $('#colorHide').hide()
+          $('#ethnicityHide').show()
+        }, 1500);
       }
     });
     
     $('.ethnicity').click(function() {
+      getValue('ethnicityAnswer')
       if (answerValue==''){
         alert('Please type word(s)')
       }
       else{
-        getValue('ethnicityAnswer')
         writeEthnicityData(answerValue)
-        getData('ethnicity/',ethnicity)
+        getData('ethnicity/')
+        setTimeout(function(){
+          if (count<=1){
+            alert('You are the only person surveyed that has the favorite color ' +answerValue)
+          }
+          else{
+            alert(count + ' people surveyed have the same favorite color as you!')
+          }
+          $('#ethnicityHide').hide()
+        }, 1500);
       }
     });
     
