@@ -16,19 +16,45 @@
   <div class='background middle'>
     <div class='middle'>
       <span id='ageHide'>How old are you?<br><input type="text" id='ageAnswer'><br><br><button class='age'>Submit</button><br><br></span>
-      <span id='colorHide'>What is your favorite color?<br><input type="text" id='colorAnswer'><br><br><button class='color'>Submit</button><br><br></span>
-      <span id='ethnicityHide'>What is your ethnicity?<br><input type="text" id='ethnicityAnswer'><br><br><button class='ethnicity'>Submit</button><br><br></span>
+      <span id='colorHide' class='hide'>What is your favorite color?<br><input type="text" id='colorAnswer'><br><br><button class='color'>Submit</button><br><br></span>
+      <span id='ethnicityHide' class='hide'>What is your ethnicity?<br><input type="text" id='ethnicityAnswer'><br><br><button class='ethnicity'>Submit</button><br><br></span>
     </div>
   </div>
+  
+  <div id='cirtificateStyle' class='hide'>
+    Name: <input type="text" id='name' placeholder='Type your name...'/>
+    Background Color: <input type="text" id="backgroundColor" placeholder='Type your desired background color...'/>
+    font: 
+    <select id='choice'>
+      <option value="Cursive">Cursive</option>
+      <option value="Fantasy">Fantasy</option>
+      <option value="Monospace">Monospace</option>
+      <option value="Sans-serif">Sans-serif</option>
+      <option value="Serif">Serif</option>
+    </select>
+    <button id='cssSubmit'>Submit</button>
+  </div>
+  
+  <div id='cirtificate' class='hide'>
+    <br><br><br><br><br>
+    <hr>
+    <h1>Cirtificate</h1>
+    <h2>Congratulations</h2>
+    <p id='namePlacer'> Your Name</p>
+    <p id='sentence'>Press Submit to receive your award!</p>
+    <hr>
+  </div>
+    
 
   <script>
     var answerValue2
     var answerValue
     var count = 0
     var length
+    var original=[]
+    var color = []
     
-    $('#colorHide').hide()
-    $('#ethnicityHide').hide()
+    $('.hide').hide()
 
     function getData(data){
       var query = firebase.database().ref(data).orderByKey();
@@ -38,6 +64,7 @@
             // childData will be the actual contents of the child
             var childData = childSnapshot.val();
             var objects = (Object.values(childData))
+            console.log(objects[0])
 
             if (answerValue == objects[0]){
               count ++
@@ -51,6 +78,11 @@
       answerValue = answerValue2.trim()
     }
     
+    function cirtificate(){
+      $('.middle').hide()
+      $('.hide').show()
+    }
+    
     $('.age').click(function() {
       getValue('ageAnswer')
       answerValue = parseInt(answerValue)
@@ -59,6 +91,7 @@
         getData('age/')
         setTimeout(function(){
           if (count<=1){
+            original.push(answerValue)
             alert('You are the only person surveyed that is ' +answerValue+ ' years old!')
           }
           else{
@@ -80,13 +113,16 @@
       }
       else{
         writeColorData(answerValue)
+        count = 0
         getData('color/')
         setTimeout(function(){
           if (count<=1){
-            alert('You are the only person surveyed that is ' +answerValue)
+            original.push(answerValue)
+            color.push(answerValue)
+            alert('You are the only person surveyed that has the favorite color ' +answerValue + '.')
           }
           else{
-            alert(count + ' people surveyed have the same ethnicity as you!')
+            alert(count + ' people surveyed have the same favorite color as you!')
           }
           $('#colorHide').hide()
           $('#ethnicityHide').show()
@@ -101,17 +137,58 @@
       }
       else{
         writeEthnicityData(answerValue)
+        count = 0
         getData('ethnicity/')
         setTimeout(function(){
           if (count<=1){
-            alert('You are the only person surveyed that has the favorite color ' +answerValue)
+            original.push(answerValue)
+            alert('You are the only person surveyed that is ' +answerValue + '.')
           }
           else{
-            alert(count + ' people surveyed have the same favorite color as you!')
+            alert(count + ' people surveyed have the same ethnicity as you!')
           }
-          $('#ethnicityHide').hide()
+          cirtificate()
         }, 1500);
       }
+    });
+    
+    $("#cssSubmit").click(function(){
+        var name = $("#name").val();
+        var backgroundColor = $("#backgroundColor").val();
+        var font = document.getElementById("choice").selectedIndex;
+        var changeFont
+        var sentence
+        
+        if (original.length==3){
+          sentence = 'You are the only ' + original[0] + 'year old who likes the color ' + original[1] + ' and is ' + original[2] + '.'
+        }
+        else if (original.length>=1 && color.length==1){
+          sentence = 'You favorite color is ' + color[0] + ' and you are the only person in the survey to have this favorite color.'
+        }
+        else{
+          sentence = 'Based on the data, you are just like everyone else!'
+        }
+        
+        if (font==0){
+          changeFont = 'cursive'
+        }
+        else if (font==1){
+          changeFont = 'fantasy'
+        }
+        else if (font==2){
+          changeFont = 'Monospace'
+        }
+        else if (font==3){
+          changeFont = 'sans-serif'
+        }
+        else if (font==4){
+          changeFont = 'serif'
+        }
+        
+        $('#namePlacer').css('font-family',changeFont)
+        $("#namePlacer").html(name)
+        $("#sentence").html(sentence)
+        $("#cirtificate").css('background-color',backgroundColor)
     });
     
   </script>
@@ -128,21 +205,17 @@
       messagingSenderId: "114613586829"
     };
     firebase.initializeApp(config);
-
     var database = firebase.database();
-
     function writeAgeData(ageValue) {
       firebase.database().ref('age/').push().set({
         value: ageValue
       });
     }
-
     function writeColorData(colorValue) {
           firebase.database().ref('color/').push().set({
             value:colorValue
           });
     }
-
     function writeEthnicityData(ethnicityValue) {
           firebase.database().ref('ethnicity/').push().set({
             value:ethnicityValue
