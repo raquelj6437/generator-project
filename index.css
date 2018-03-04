@@ -1,5 +1,5 @@
 body{
-    background: linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1));
+    /*background: linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1));*/
 }
 
 .middle {
@@ -45,25 +45,31 @@ span{
     border: 2px solid white;
 }
 
-#cirtificate{
+#certificate{
     border: solid 2px;
     height: 500px;
     width: 100%;
     background-color: white;
     text-align: center;
+    position: relative;
+    top: 70px;
 }
 
-#cirtificateStyle{
-    height: 50px;
+#certificateStyle{
     background-color: lightblue;
-    font-size: 30px
+    font-size: 30px;
+    text-align: center;
+    position: relative;
+    top: 40px;
 }
 
 #name, #backgroundColor{
-    height: 20px;
+    height: 40px;
     background-color: transparent;
-    border: solid 2px;
-    width: 250px;
+    border: solid 2px white;
+    width: 743px;;
+    font-size: 15px; 
+    text-align: center;
 }
 
 #namePlacer{
@@ -73,4 +79,33 @@ span{
 
 #sentence{
     font-size: 20px
+}
+
+#choice{
+    width: 750px;
+    padding: 10px 70px 10px 13px !important; 
+    height: auto !important; 
+    border: 3px solid white; 
+    border-radius: 3px; 
+    background: url("https://image.ibb.co/iMeAJv/selectbox_arrow.png") right center no-repeat; 
+    background-color: transparent; 
+    font-size: 16px; 
+    line-height: 16px !important; appearance: none; 
+     /*this is must */ 
+     -webkit-appearance: none; -moz-appearance: none;
+}
+
+#cssSubmit{
+    width: 750px;
+    font-size: 16px; 
+    height: 40px;
+    border: none;
+    border-radius: 12px;
+    background-color: black;
+    color: white;
+}
+
+#cssSubmit:hover{
+    border: 2px solid black;
+    background-color: transparent;
 }

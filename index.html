@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Originality Cirtificate</title>
+  <title>Originality Certificate</title>
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
   <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -21,24 +21,23 @@
     </div>
   </div>
   
-  <div id='cirtificateStyle' class='hide'>
-    Name: <input type="text" id='name' placeholder='Type your name...'/>
-    Background Color: <input type="text" id="backgroundColor" placeholder='Type your desired background color...'/>
-    font: 
+  <div id='certificateStyle' class='hide'>
+     <input type="text" id='name' placeholder='Type your name...'/><br>
+     <input type="text" id="backgroundColor" placeholder='Type background color...'/><br>
     <select id='choice'>
       <option value="Cursive">Cursive</option>
       <option value="Fantasy">Fantasy</option>
       <option value="Monospace">Monospace</option>
       <option value="Sans-serif">Sans-serif</option>
       <option value="Serif">Serif</option>
-    </select>
+    </select><br>
     <button id='cssSubmit'>Submit</button>
   </div>
   
-  <div id='cirtificate' class='hide'>
+  <div id='certificate' class='hide'>
     <br><br><br><br><br>
     <hr>
-    <h1>Cirtificate</h1>
+    <h1>Certificate</h1>
     <h2>Congratulations</h2>
     <p id='namePlacer'> Your Name</p>
     <p id='sentence'>Press Submit to receive your award!</p>
@@ -54,7 +53,8 @@
     var original=[]
     var color = []
     
-    $('.hide').hide()
+    certificate()
+    // $('.hide').hide()
 
     function getData(data){
       var query = firebase.database().ref(data).orderByKey();
@@ -78,9 +78,10 @@
       answerValue = answerValue2.trim()
     }
     
-    function cirtificate(){
+    function certificate(){
       $('.middle').hide()
       $('.hide').show()
+      $('body').css('background-color','lightblue')
     }
     
     $('.age').click(function() {
@@ -147,7 +148,7 @@
           else{
             alert(count + ' people surveyed have the same ethnicity as you!')
           }
-          cirtificate()
+          certificate()
         }, 1500);
       }
     });
@@ -158,6 +159,9 @@
         var font = document.getElementById("choice").selectedIndex;
         var changeFont
         var sentence
+        var nameColor = ['blue','red','orange','green','yellow','black','purple']
+        var ranNum = Math.floor((Math.random() * nameColor.length))
+        console.log(ranNum)
         
         if (original.length==3){
           sentence = 'Out of all the people who took this survey, you are the only ' + original[0] + 'year old who likes the color ' + original[1] + ' and is ' + original[2] + '.'
@@ -188,7 +192,8 @@
         $('#namePlacer').css('font-family',changeFont)
         $("#namePlacer").html(name)
         $("#sentence").html(sentence)
-        $("#cirtificate").css('background-color',backgroundColor)
+        $("#certificate").css('background-color',backgroundColor)
+        $('#namePlacer').css('color',nameColor[ranNum])
     });
     
   </script>
