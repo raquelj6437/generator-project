@@ -62,6 +62,7 @@ span{
     text-align: center;
     position: relative;
     top: 40px;
+    height: 250px;
 }
 
 #name, #backgroundColor{
