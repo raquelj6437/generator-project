@@ -55,6 +55,7 @@
     
     // certificate()
     $('.hide').hide()
+    $('body').css('background-color', 'pink')
 
     function getData(data){
       var query = firebase.database().ref(data).orderByKey();
