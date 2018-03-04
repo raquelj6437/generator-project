@@ -48,7 +48,7 @@
   <script>
     var answerValue2
     var answerValue
-    var count = 0
+    var count
     var length
     var original=[]
     var color = []
@@ -58,6 +58,7 @@
     $('body').css('background-color', 'pink')
 
     function getData(data){
+      count = 0
       var query = firebase.database().ref(data).orderByKey();
       query.once("value")
         .then(function(snapshot) {
@@ -69,6 +70,7 @@
 
             if (answerValue == objects[0]){
               count ++
+              console.log(count)
             }
         });
       });
@@ -96,8 +98,11 @@
             original.push(answerValue)
             alert('You are the only person surveyed that is ' +answerValue+ ' years old!')
           }
+          else if(count==2){
+            alert(count-1 + ' person surveyed is the same age as you!')
+          }
           else{
-            alert(count + ' people surveyed are the same age as you!')
+            alert(count-1 + ' people surveyed are the same age as you!')
           }
           $('#ageHide').hide()
           $('#colorHide').show()
@@ -115,7 +120,6 @@
       }
       else{
         writeColorData(answerValue)
-        count = 0
         getData('color/')
         setTimeout(function(){
           if (count<=1){
@@ -123,8 +127,11 @@
             color.push(answerValue)
             alert('You are the only person surveyed that has the favorite color ' +answerValue + '.')
           }
+          else if(count==2){
+            alert(count-1 + ' person surveyed has the same favorite color as you!')
+          }
           else{
-            alert(count + ' people surveyed have the same favorite color as you!')
+            alert(count-1 + ' people surveyed have the same favorite color as you!')
           }
           $('#colorHide').hide()
           $('#ethnicityHide').show()
@@ -139,15 +146,17 @@
       }
       else{
         writeEthnicityData(answerValue)
-        count = 0
         getData('ethnicity/')
         setTimeout(function(){
           if (count<=1){
             original.push(answerValue)
             alert('You are the only person surveyed that is ' +answerValue + '.')
           }
+          else if(count==2){
+            alert(count-1 + ' person surveyed is the same ethnicity as you!')
+          }
           else{
-            alert(count + ' people surveyed have the same ethnicity as you!')
+            alert(count-1 + ' people surveyed are the same ethnicity as you!')
           }
           certificate()
         }, 1500);
@@ -162,13 +171,12 @@
         var sentence
         var nameColor = ['blue','red','orange','green','yellow','black','purple']
         var ranNum = Math.floor((Math.random() * nameColor.length))
-        console.log(ranNum)
         
         if (original.length==3){
           sentence = 'Out of all the people who took this survey, you are the only ' + original[0] + 'year old who likes the color ' + original[1] + ' and is ' + original[2] + '.'
         }
         else if (original.length>=1 && color.length==1){
-          sentence = 'You favorite color is ' + color[0] + ' and you are the only person to be survey to have this favorite color.'
+          sentence = 'You are the only person to be survey to have the favorite color' + color[0] + '.'
         }
         else{
           sentence = 'Based on the data, you are just like everyone else!'
@@ -218,14 +226,14 @@
       });
     }
     function writeColorData(colorValue) {
-          firebase.database().ref('color/').push().set({
-            value:colorValue
-          });
+      firebase.database().ref('color/').push().set({
+        value:colorValue
+      });
     }
     function writeEthnicityData(ethnicityValue) {
-          firebase.database().ref('ethnicity/').push().set({
-            value:ethnicityValue
-          });
+      firebase.database().ref('ethnicity/').push().set({
+        value:ethnicityValue
+      });
     }
   </script>
 </body>
